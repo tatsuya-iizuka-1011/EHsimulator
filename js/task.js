@@ -40,8 +40,14 @@ Task.prototype.setNextTimer = function(time){
 	}else if(this.trigger.type == 'interface'){
 		if(this.now_mode){
 			if(this.next_time == -1 ){
-				console.log('waite');
-				return this.next_time = time+this.execution_time/1000;
+				this.next_time = time+this.execution_time/1000;
+				//sensor should stop when trigger task is driving
+				if(this.driven_interface.driven_task||this.driven_interface.driven_task.trigger.type == 'timer'){
+					var driven_task = this.driven_interface.driven_task;
+					driven_task.now_mode = false;
+					driven_task.next_time = this.next_time + driven_task.trigger.cycle;
+				}
+				return this.next_time;
 			}else if(this.next_time == time){
 				this.now_mode = false;
 				return this.next_time = -1;
@@ -52,6 +58,17 @@ Task.prototype.setNextTimer = function(time){
 	}else if(this.trigger.type == 'follow_other_task'){
 		if(this.now_mode){
 			if(this.next_time == -1 ){
+				this.next_time = time+this.execution_time/1000;
+				var task = this;
+				while(task.driven_task){
+					task = task.driven_task;
+					if(task.trigger.type == 'timer'){
+						task.now_mode = false;
+						task.next_time = this.next_time + task.trigger.cycle;
+						break;
+
+					}
+				}
 				return this.next_time = time+this.execution_time/1000;
 			}else if(this.next_time == time){
 				this.now_mode = false;

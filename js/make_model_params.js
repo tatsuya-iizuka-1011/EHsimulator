@@ -52,7 +52,7 @@ setInputParams = function(){
 						'trigger':{'type':'timer','timer_type':'periodic','cycle':10/*[s]*/,'start':'application_start'}},
 					{'name':'driving_motor','type':'actuator','current':220/*[mA]*/,'voltage':5,'execution_time':30000/*[ms]*/,'outputs':{'physical_quantity':'moisture','value':200},
 						'trigger':{'type':'interface','info':{'driven_task':'moisture_sensor','type':'threshold_detection','physical_quantity':'moisture','value':500,'condition':'low'}}},
-					{'name':'tweet','type':'data_transmission','mode':'WiFi_TX','current':0/*[mA]*/,'voltage':5,'execution_time':2000/*[ms]*/,
+					{'name':'tweet','type':'data_transmission','mode':'WiFi_TX','current':0/*[mA]*/,'voltage':5,'execution_time':12000/*[ms]*/,
 						'trigger':{'type':'follow_other_task','info':{'driven_task':'driving_motor'}}}]
 			},
 			'energy_adjustment':{

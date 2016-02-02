@@ -39,8 +39,10 @@ Model.prototype.setTaskList = function(){
 	for(var i=0;i<task_list.length;i++){
 		if(task_list[i].trigger.type == 'follow_other_task'){
 			for(var j=0;j<task_list.length;j++){
-				if(task_list[j].name == task_list[i].trigger.info.driven_task)
+				if(task_list[j].name == task_list[i].trigger.info.driven_task){
 					task_list[j].trigger_task = task_list[i];
+					task_list[i].driven_task = task_list[j];
+				}
 			}
 		}
 	}
@@ -60,6 +62,8 @@ Model.prototype.setInterfaceList = function(){
 				if(task.trigger.info.driven_task == task_list[j].name){
 					interface.driven_task = task_list[j];
 					task_list[j].trigger_interface = interface;
+					task_list[j].trigger_task = task_list[j];
+					task_list[i].driven_task = task_list[j];
 				}
 			}
 			this.interface_list.push(interface);
@@ -188,7 +192,7 @@ Model.prototype.calculate = function(){
 	var i=0;
 	var info = [];
 	drive_time_task_list = [0,0,0];
-	while(i<1000/*0<this.S*/){
+	while(i<5000/*0<this.S*/){
 		
 		this.Ph = this.getHarvestedPower(now_time);
 		this.Pstandby = this.getStandbyPower();
