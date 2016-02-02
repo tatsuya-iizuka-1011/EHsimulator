@@ -1,3 +1,4 @@
+
 setInputParams = function(){
 	//get input parameters and make "input_params"
 	//getElementById , parseInt() is useful

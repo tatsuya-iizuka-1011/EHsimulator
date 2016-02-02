@@ -3,7 +3,7 @@ var sys_params;
 var now_time=0;
 var one_hour = 60*60;
 var one_day = one_hour * 24;
-var start_time = 8 * one_hour;
+var start_time = 8 * one_hour; // this should not be written here but in "make_model_params.js"
 function Model(){
 	this.name = "model";
 	this.mode;
@@ -144,6 +144,7 @@ Model.prototype.getPhysicalQuantity = function(args){
 }
 
 Model.prototype.getHarvestedPower = function(time){
+	return 0;
 	return this.sys_params.environment.energy.energy_profile(time)*this.sys_params.application.harvester.scale*this.sys_params.application.harvester.efficiency;
 }
 Model.prototype.getStandbyPower = function(){
@@ -193,22 +194,18 @@ Model.prototype.calculate = function(){
 	var info = [];
 	drive_time_task_list = [0,0,0];
 	while(i<5000/*0<this.S*/){
-		
+		next_time = this.setNextTime(now_time);
 		this.Ph = this.getHarvestedPower(now_time);
 		this.Pstandby = this.getStandbyPower();
 		this.Ptasks = this.getTasksPower();
 		this.Pmcu = this.Ptasks + this.Pstandby;
 		this.Pl = this.Pmcu / load_efficiency;
 		this.Ps = this.Ph - this.Pl;
-		next_time = this.setNextTime(now_time);
+		
 
 		
 		this.dt = next_time - now_time;
-		if(this.Ph-this.Pl >0){
-			this.S += storage_efficiency*(this.Ph-this.Pl)*this.dt;
-		}else{
-			this.S += (this.Ph-this.Pl)*this.dt;
-		}
+		
 
 		this.hour =  Math.floor(now_time/3600);
 		this.minute =  Math.floor((now_time-this.hour*3600)/60);
@@ -225,7 +222,14 @@ Model.prototype.calculate = function(){
 		}
 
 
-		info[i] = {'storage':this.S,'Ps':this.Ps,'Ph':this.Ph,'Pl':this.Pl,'Ptasks':this.Ptasks,'Pstandby':this.Pstandby,'now_time':now_time,'dt':this.dt,'time':{'h':this.hour,'m':this.minute,'s':this.second},'task_mode_list':task_mode_list,'physic_value_list':physic_list,'task_power_list':[this.task_list[0].power,this.task_list[1].power,this.task_list[2].power]};
+		info[i] = {'storage':this.S,'Ps':this.Ps,'Ph':this.Ph,'Pl':this.Pl,'Ptasks':this.Ptasks,'Pstandby':this.Pstandby,'now_time':now_time,'dt':this.dt,'time':{'h':this.hour,'m':this.minute,'s':this.second},'task_mode_list':task_mode_list,'physic_value_list':physic_list,'task_power_list':[this.task_list[0].power,this.task_list[1].power,this.task_list[2].power],'next_time':next_time};
+		if(this.Ph-this.Pl >0){
+			this.S += storage_efficiency*(this.Ph-this.Pl)*this.dt;
+		}else{
+			this.S += (this.Ph-this.Pl)*this.dt;
+		}
+
+
 		i++;
 		now_time = next_time;
 		
