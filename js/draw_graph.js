@@ -55,7 +55,7 @@ Model.prototype.showGraph = function(){
           subtitle: 'in millions of dollars (USD)'
         },
         hAxis: {title: '時刻',
-                        //viewWindow: {min:35900,max:36100},     // 表示範囲を 450 - 700
+                        viewWindow: {min:31000,max:31100},     // 表示範囲を 450 - 700
                         gridlines:{color:'transparent'}},
         width: 900,
         height: 500,

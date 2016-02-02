@@ -8,27 +8,32 @@ function Task(){
 	this.outputs;
 	this.now_mode=false;
 	this.power;
-	this.next_time=-1;
+	this.next_time=start_time;
 	this.parent_model = {};
 }
 
 Task.prototype.setNextTimer = function(time){
 	if(this.trigger.type == 'timer'){
 		if(this.now_mode){
-			this.now_mode = false;
-			if(this.trigger.timer_type == 'periodic'){
-				this.next_time = time+this.trigger.cycle;
-				return this.next_time;
-			}else if(this.trigger.timer_type == 'constant'){
-				alert('to be written');//return next_time
+			console.log('test');
+			if(this.next_time == time){
+				this.now_mode = false;
+				if(this.trigger.timer_type == 'periodic'){
+					this.next_time = time+this.trigger.cycle;
+					return this.next_time;
+				}else if(this.trigger.timer_type == 'constant'){
+					alert('to be written');//return next_time
+				}
 			}
 		}else{
-			this.now_mode = true;
-			if(this.trigger.timer_type == 'periodic'){
-				this.next_time = time+this.execution_time/1000;
-				return this.next_time;
-			}else if(this.timer_type == 'constant'){
-				alert('to be written');//return next_time
+			if(this.next_time == time){
+				this.now_mode = true;
+				if(this.trigger.timer_type == 'periodic'){
+					this.next_time = time+this.execution_time/1000;
+					return this.next_time;
+				}else if(this.timer_type == 'constant'){
+					alert('to be written');//return next_time
+				}
 			}
 		}
 

@@ -19,8 +19,6 @@ Model.prototype.setSysParams = function(args){
 	this.sys_params = $.extend(true, {}, args);
 }
 
-
-
 Model.prototype.setTaskList = function(){
 	var task_list = [];
 	var task_list_from_sys = this.sys_params.application.load.task_list;
@@ -181,8 +179,6 @@ Model.prototype.setup = function(){
 	this.S = this.sys_params.application.storage.capacity * this.sys_params.application.storage.initial_storage;
 	now_time = start_time;
 	this.info = [];
-
-
 }
 
 Model.prototype.calculate = function(){
@@ -192,7 +188,7 @@ Model.prototype.calculate = function(){
 	var i=0;
 	var info = [];
 	drive_time_task_list = [0,0,0];
-	while(i<10000/*0<this.S*/){
+	while(i<1000/*0<this.S*/){
 		
 		this.Ph = this.getHarvestedPower(now_time);
 		this.Pstandby = this.getStandbyPower();
@@ -233,9 +229,6 @@ Model.prototype.calculate = function(){
 	this.finish_time = now_time - start_time;
 	this.info = info;
 }
-
-
-
 
 var model = new Model;
 model.setup();
