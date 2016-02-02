@@ -13,7 +13,6 @@ function Task(){
 }
 
 Task.prototype.setNextTimer = function(time){
-	console.log('hello',this);
 	if(this.trigger.type == 'timer'){
 		if(this.now_mode){
 			this.now_mode = false;

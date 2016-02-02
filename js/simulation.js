@@ -56,12 +56,12 @@ Model.prototype.setInterfaceList = function(){
 		var task = task_list[i];
 		if(task.trigger.type == 'interface'){
 			var interface = task.trigger.info;
-			interface.trigger_task = task;
-			task.trigger_interface = interface;
+			interface.trigger_task = task;//ok
+			task.driven_interface = interface;
 			for(var j=0;j<task_list.length;j++){
 				if(task.trigger.info.driven_task == task_list[j].name){
 					interface.driven_task = task_list[j];
-					task_list[j].driven_interface = interface;
+					task_list[j].trigger_interface = interface;
 				}
 			}
 			this.interface_list.push(interface);
@@ -192,7 +192,7 @@ Model.prototype.calculate = function(){
 	var i=0;
 	var info = [];
 	drive_time_task_list = [0,0,0];
-	while(i<5000/*0<this.S*/){
+	while(i<10000/*0<this.S*/){
 		
 		this.Ph = this.getHarvestedPower(now_time);
 		this.Pstandby = this.getStandbyPower();
