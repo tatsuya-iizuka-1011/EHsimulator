@@ -11,7 +11,6 @@ function Task(){
 	this.next_time=start_time;
 	this.parent_model = {};
 }
-
 Task.prototype.setNextTimer = function(time){
 	if(this.trigger.type == 'timer'){
 		if(this.now_mode){
@@ -99,7 +98,5 @@ Task.prototype.getTaskPower = function(){
 			console.log(this.parent_model);
 
 		return this.now_mode ? this.voltage*this.current/1000:0; 
-	}
-
-	
+	}	
 }

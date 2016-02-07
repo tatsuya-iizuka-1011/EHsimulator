@@ -1,6 +1,3 @@
-
-
-
 Model.prototype.showGraph = function(){
     google.charts.load('current', {'packages':['line','corechart']});
     //google.charts.load('current', {'packages':['corechart']});
@@ -8,7 +5,7 @@ Model.prototype.showGraph = function(){
     google.charts.setOnLoadCallback(drawChartPtask);
     google.charts.setOnLoadCallback(drawChartPhysic);
     google.charts.setOnLoadCallback(drawChartPh); 
-    google.charts.setOnLoadCallback(drawChartPowers);    
+    //google.charts.setOnLoadCallback(drawChartPowers);    
 
     var model = this;
 
@@ -32,7 +29,7 @@ Model.prototype.showGraph = function(){
               subtitle: 'in millions of dollars (USD)'
             },
             hAxis: {title: '時刻',
-                            viewWindow: {min:35900,max:36100}},
+                            viewWindow: {min:start_time,max:this.finish_time}},
             width: 900,
             height: 500,
             lineWidth: 1,
@@ -62,13 +59,13 @@ Model.prototype.showGraph = function(){
           subtitle: 'in millions of dollars (USD)'
         },
         hAxis: {title: '時刻',
-                        viewWindow: {min:35900,max:36100},     // 表示範囲を 450 - 700
+                        viewWindow: {min:start_time,max:this.finish_time},     // 表示範囲を 450 - 700
                         gridlines:{color:'transparent'}},
         width: 900,
-        height: 500,
-        lineWidth: 1,
-        pointSize: 0.2,
-        connectSteps:false,
+        height: 300,
+        //lineWidth: 1,
+        //pointSize: 0.2,
+        //connectSteps:false,
         isStacked: true
         };
 
@@ -88,7 +85,6 @@ Model.prototype.showGraph = function(){
             for(var j=0;j<info[i].physic_value_list.length;j++){
                 array.push(info[i].physic_value_list[j]);
             }
-            console.log('wait');
             data_physic.addRows([array]);
         }
 
@@ -98,13 +94,15 @@ Model.prototype.showGraph = function(){
           subtitle: 'in millions of dollars (USD)'
         },
         hAxis: {title: '時刻',
-                        viewWindow: {min:35900,max:36100},     // 表示範囲を 450 - 700
+                        viewWindow: {min:start_time,max:this.finish_time},     // 表示範囲を 450 - 700
                         gridlines:{color:'transparent'}},
         width: 900,
-        height: 500
+        height: 300,
+        lineWidth: 1,
+        pointSize: 0.2
         };
 
-        var chart_physic = new google.charts.Line(document.getElementById('chart_physic'));
+        var chart_physic = new google.visualization.ScatterChart(document.getElementById('chart_physic'));
 
         chart_physic.draw(data_physic, options_physic);
     }
@@ -149,8 +147,8 @@ Model.prototype.showGraph = function(){
               title: 'Box Office Earnings in First Two Weeks of Opening',
               subtitle: 'in millions of dollars (USD)'
             },
-            hAxis: {title: '時刻',
-                            viewWindow: {min:35900,max:36100}},
+           // hAxis: {title: '時刻',
+             //               viewWindow: {min:35900,max:36100}},
             width: 900,
             height: 500,
             lineWidth: 1,

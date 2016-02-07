@@ -46,7 +46,6 @@ Model.prototype.setTaskList = function(){
 			}
 		}
 	}
-
 }
 
 Model.prototype.setInterfaceList = function(){
@@ -87,14 +86,13 @@ Model.prototype.setNextTime = function(time){
 			}else{
 				next_t = (next_t <= task.next_time ? next_t:task.next_time)
 			}
-
 		}
 	}
 	return next_t;
 }
 
 Model.prototype.checkInterfaceTrigger = function(){
-for(var i=0;i<this.interface_list.length;i++){
+	for(var i=0;i<this.interface_list.length;i++){
 		var interface = this.interface_list[i];
 		if(interface.driven_task.now_mode == true){
 			if(interface.type == 'threshold_detection'){
@@ -119,8 +117,6 @@ Model.prototype.checkFollowTrigger = function(){
 	}
 
 }
-
-
 //to be written
 Model.prototype.setPhysicalQuantity = function(args){
 	this.physic_list = [];
@@ -130,7 +126,6 @@ Model.prototype.setPhysicalQuantity = function(args){
 		physic.now_value = physic.initial_value;
 		this.physic_list.push(physic);
 	}
-
 }
 Model.prototype.getPhysicalQuantity = function(args){
 	for(var i=0;i<this.physic_list.length;i++){
@@ -142,9 +137,8 @@ Model.prototype.getPhysicalQuantity = function(args){
 		}
 	}
 }
-
 Model.prototype.getHarvestedPower = function(time){
-	return 0;
+	//return 0;
 	return this.sys_params.environment.energy.energy_profile(time)*this.sys_params.application.harvester.scale*this.sys_params.application.harvester.efficiency;
 }
 Model.prototype.getStandbyPower = function(){
@@ -167,8 +161,6 @@ Model.prototype.getTasksPower = function(){
 	}
 	return Ptasks;
 }
-
-
 Model.prototype.setup = function(){
 	this.mode = 'active';
 	this.Ph;
@@ -185,7 +177,6 @@ Model.prototype.setup = function(){
 	now_time = start_time;
 	this.info = [];
 }
-
 Model.prototype.calculate = function(){
 	var load_efficiency = this.sys_params.application.load.load_power_manager.efficiency;
 	var storage_efficiency = this.sys_params.application.storage.charge_efficiency;
@@ -211,18 +202,18 @@ Model.prototype.calculate = function(){
 		this.minute =  Math.floor((now_time-this.hour*3600)/60);
 		this.second =  Math.floor(now_time-this.hour*3600-this.minute*60);
 
-		var task_mode_list = [];
+		/*var task_mode_list = [];
 		for(var j=0;j<drive_time_task_list.length;j++){
 			task_mode_list[j] = this.task_list[j].now_mode;
 			drive_time_task_list[j] += this.dt * this.task_list[j].now_mode;
-		}
+		}*/
 		var physic_list =[];
 		for(var j=0;j<this.physic_list.length;j++){
 			physic_list[j]  = this.physic_list[j].now_value;
 		}
 
 
-		info[i] = {'storage':this.S,'Ps':this.Ps,'Ph':this.Ph,'Pl':this.Pl,'Ptasks':this.Ptasks,'Pstandby':this.Pstandby,'now_time':now_time,'dt':this.dt,'time':{'h':this.hour,'m':this.minute,'s':this.second},'task_mode_list':task_mode_list,'physic_value_list':physic_list,'task_power_list':[this.task_list[0].power,this.task_list[1].power,this.task_list[2].power],'next_time':next_time};
+		info[i] = {'storage':this.S,'Ps':this.Ps,'Ph':this.Ph,'Pl':this.Pl,'Ptasks':this.Ptasks,'Pstandby':this.Pstandby,'now_time':now_time,'dt':this.dt,'time':{'h':this.hour,'m':this.minute,'s':this.second},/*'task_mode_list':task_mode_list,*/'physic_value_list':physic_list,'task_power_list':[this.task_list[0].power,this.task_list[1].power,this.task_list[2].power],'next_time':next_time};
 		if(this.Ph-this.Pl >0){
 			this.S += storage_efficiency*(this.Ph-this.Pl)*this.dt;
 		}else{
@@ -234,10 +225,9 @@ Model.prototype.calculate = function(){
 		now_time = next_time;
 		
 	}
-	this.finish_time = now_time - start_time;
+	this.finish_time = now_time;
 	this.info = info;
 }
-
 var model = new Model;
 model.setup();
 model.calculate();

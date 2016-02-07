@@ -1,4 +1,3 @@
-
 setInputParams = function(){
 	//get input parameters and make "input_params"
 	//getElementById , parseInt() is useful
@@ -12,7 +11,7 @@ setInputParams = function(){
 					if(time % one_day < 6 * one_hour || time % one_day > 18 * one_hour ){
 						return 0;
 					}else{
-						return 0.6*Math.sin(Math.PI*((today_time-6*one_hour)/(12*one_hour)));
+						return 0.3*Math.sin(Math.PI*((today_time-6*one_hour)/(12*one_hour)));
 					}
 				},
 				'cycle':24*60*60//[s]
