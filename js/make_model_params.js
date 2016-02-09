@@ -1,3 +1,5 @@
+
+
 setInputParams = function(){
 	//get input parameters and make "input_params"
 	//getElementById , parseInt() is useful
@@ -60,6 +62,8 @@ setInputParams = function(){
 				'type':'execution',
 				'condition':{'type':'battery_threshold_low','value':15/*%*/}
 			}
+		},'info':{
+			'start_time':8
 		}
 	};
 	return input_params;

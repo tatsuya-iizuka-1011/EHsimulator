@@ -3,7 +3,8 @@ var sys_params;
 var now_time=0;
 var one_hour = 60*60;
 var one_day = one_hour * 24;
-var start_time = 8 * one_hour; // this should not be written here but in "make_model_params.js"
+var start_time;
+
 function Model(){
 	this.name = "model";
 	this.mode;
@@ -17,6 +18,7 @@ function Model(){
 
 Model.prototype.setSysParams = function(args){
 	this.sys_params = $.extend(true, {}, args);
+	start_time = args.info.start_time * one_hour;
 }
 
 Model.prototype.setTaskList = function(){
@@ -219,8 +221,6 @@ Model.prototype.calculate = function(){
 		}else{
 			this.S += (this.Ph-this.Pl)*this.dt;
 		}
-
-
 		i++;
 		now_time = next_time;
 		
