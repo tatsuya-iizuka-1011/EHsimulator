@@ -1,4 +1,4 @@
-
+var p_zoom_range = {min:[7,59,0],max:[8,1,0]};
 
 setInputParams = function(){
 	//get input parameters and make "input_params"

@@ -227,6 +227,7 @@ Model.prototype.calculate = function(){
 	}
 	this.finish_time = now_time;
 	this.info = info;
+	console.log(info);
 }
 var model = new Model;
 model.setup();

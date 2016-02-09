@@ -6,6 +6,14 @@
     top: 0px;
     left:100px;
 }
+#chart_Ptask_zoomed{
+
+    width:900px;
+    height:300px;
+    position: absolute;
+    top: 0px;
+    left:1000px;
+}
 #chart_physic{
 
     width:900px;

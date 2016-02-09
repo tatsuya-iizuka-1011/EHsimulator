@@ -1,11 +1,14 @@
 Model.prototype.showGraph = function(){
     google.charts.load('current', {'packages':['line','corechart']});
     //google.charts.load('current', {'packages':['corechart']});
+
+
     google.charts.setOnLoadCallback(drawChartStorage);
     google.charts.setOnLoadCallback(drawChartPtask);
     google.charts.setOnLoadCallback(drawChartPhysic);
-    google.charts.setOnLoadCallback(drawChartPh); 
-    //google.charts.setOnLoadCallback(drawChartPowers);    
+    //google.charts.setOnLoadCallback(drawChartPh); 
+    google.charts.setOnLoadCallback(drawChartPtaskZoomed);
+    google.charts.setOnLoadCallback(drawVisualization);    
 
     var model = this;
 
@@ -20,7 +23,7 @@ Model.prototype.showGraph = function(){
         data_storage.addColumn('number', 'dt/20');
 
         for(var i=0;i<info.length;i++){
-            data_storage.addRows([[info[i].now_time,(info[i].storage-3814)/30,info[i].Ps,info[i].Pl,info[i].dt/20]]);
+            data_storage.addRows([[info[i].now_time,info[i].storage,info[i].Ps,info[i].Pl,info[i].dt/20]]);
         }
 
         var options_storage = {
@@ -33,7 +36,14 @@ Model.prototype.showGraph = function(){
             width: 900,
             height: 500,
             lineWidth: 1,
-            pointSize: 0.2
+            pointSize: 0.2,
+            series: {
+            0: {targetAxisIndex:1,type: "line"},
+            1: {targetAxisIndex:0,type: "line"},
+            2: {targetAxisIndex:0,type: "line"},
+            3: {targetAxisIndex:0,type: "line"},
+            4: {targetAxisIndex:0,type: "line"}
+        }
         };
 
 
@@ -44,13 +54,15 @@ Model.prototype.showGraph = function(){
     function drawChartPtask() {
 
         var data_Ptask = new google.visualization.DataTable();
-        data_Ptask.addColumn('number', 'time');
+        data_Ptask.addColumn('timeofday', 'time');
         data_Ptask.addColumn('number', 'Ptask1');
         data_Ptask.addColumn('number', 'Ptask2');
         data_Ptask.addColumn('number', 'Ptask3');
+        data_Ptask.addColumn('number', 'Pharvested');
+        data_Ptask.addColumn('number', 'Storage');
 
-        for(var i=0;i<info.length;i++){
-            data_Ptask.addRows([[info[i].next_time,info[i].task_power_list[0],info[i].task_power_list[1],info[i].task_power_list[2]]]);
+        for(var i=0;i<info.length-1;i++){
+            data_Ptask.addRows([[[info[i+1].time.h, info[i+1].time.m, info[i+1].time.s],info[i].task_power_list[0],info[i].task_power_list[1],info[i].task_power_list[2],info[i+1].Ph,info[i+1].S]]);
         }
 
         var options_Ptask = {
@@ -58,8 +70,53 @@ Model.prototype.showGraph = function(){
           title: 'Box Office Earnings in First Two Weeks of Opening',
           subtitle: 'in millions of dollars (USD)'
         },
+        hAxis: {title: 'time',
+                        viewWindow: {min:[8,0,0],max:this.finish_time},     // 表示範囲を 450 - 700
+                        gridlines:{color:'transparent'}},
+        //vAxis: {title: 'power [W]'},
+        explorer: {
+            maxZoomIn:0.25,
+            keepInBounds: true
+        },
+        width: 900,
+        height: 300,
+        //lineWidth: 1,
+        //pointSize: 0.2,
+        //connectSteps:false,
+        isStacked: true,
+        series: {
+            0: {targetAxisIndex:0,type: "steppedArea"},
+            1: {targetAxisIndex:0,type: "steppedArea"},
+            2: {targetAxisIndex:0,type: "steppedArea"},
+            3: {targetAxisIndex:0,type: "line"},
+            4: {targetAxisIndex:0,type: "line"}
+        }
+        };
+
+        var chart_Ptask = new google.visualization.SteppedAreaChart(document.getElementById('chart_Ptask'));
+
+        chart_Ptask.draw(data_Ptask, options_Ptask);
+    }
+    function drawChartPtaskZoomed() {
+
+        var data_Ptask = new google.visualization.DataTable();
+        data_Ptask.addColumn('timeofday', 'time');
+        data_Ptask.addColumn('number', 'Ptask1');
+        data_Ptask.addColumn('number', 'Ptask2');
+        data_Ptask.addColumn('number', 'Ptask3');
+
+        for(var i=0;i<info.length-1;i++){
+            data_Ptask.addRows([[[info[i+1].time.h, info[i+1].time.m, info[i+1].time.s],info[i].task_power_list[0],info[i].task_power_list[1],info[i].task_power_list[2]]]);
+        }
+
+
+        var options_Ptask = {
+        chart_Ptask: {
+          title: 'Box Office Earnings in First Two Weeks of Opening',
+          subtitle: 'in millions of dollars (USD)'
+        },
         hAxis: {title: '時刻',
-                        viewWindow: {min:start_time,max:this.finish_time},     // 表示範囲を 450 - 700
+                        viewWindow: p_zoom_range,     // 表示範囲を 450 - 700
                         gridlines:{color:'transparent'}},
         width: 900,
         height: 300,
@@ -69,19 +126,19 @@ Model.prototype.showGraph = function(){
         isStacked: true
         };
 
-        var chart_Ptask = new google.visualization.SteppedAreaChart(document.getElementById('chart_Ptask'));
+        var chart_Ptask = new google.visualization.SteppedAreaChart(document.getElementById('chart_Ptask_zoomed'));
 
         chart_Ptask.draw(data_Ptask, options_Ptask);
     }
     function drawChartPhysic() {
 
         var data_physic = new google.visualization.DataTable();
-        data_physic.addColumn('number', 'time');
+        data_physic.addColumn('timeofday', 'time');
         for(var i=0;i<info[i].physic_value_list.length;i++){
            data_physic.addColumn('number', model.physic_list[i].name); 
         }
         for(var i=0;i<info.length;i++){
-            var array = [info[i].now_time];
+            var array = [[info[i].time.h, info[i].time.m, info[i].time.s]];
             for(var j=0;j<info[i].physic_value_list.length;j++){
                 array.push(info[i].physic_value_list[j]);
             }
@@ -161,7 +218,37 @@ Model.prototype.showGraph = function(){
 
         chart_Powers.draw(data_Powers, options_Powers);
     }
+    function drawVisualization() {
+        // Some raw data (not necessarily accurate)
+        var data = google.visualization.arrayToDataTable([
+         ['Month', 'Bolivia', 'Ecuador', 'Madagascar', 'Papua New Guinea', 'Rwanda', 'Average'],
+         ['2004/05',  165,      938,         522,             998,           450,      614.6],
+         ['2005/06',  135,      1120,        599,             1268,          288,      682],
+         ['2006/07',  157,      1167,        587,             807,           397,      623],
+         ['2007/08',  139,      1110,        615,             968,           215,      609.4],
+         ['2008/09',  136,      691,         629,             1026,          366,      569.6]
+      ]);
 
+    var options = {
+      title : 'Monthly Coffee Production by Country',
+      vAxis: {title: 'Cups'},
+      hAxis: {title: 'Month'},
+      seriesType: 'bars',
+      series: {
+            0: {targetAxisIndex:0,type: "line"},
+            1: {targetAxisIndex:0,type: "line"},
+            2: {targetAxisIndex:0,type: "line"},
+            3: {targetAxisIndex:0,type: "line"},
+            4: {targetAxisIndex:1,type: "line"},
+            5: {targetAxisIndex:1,type: "line"}
+        }
+    };
+    
+
+
+    var chart = new google.visualization.ComboChart(document.getElementById('test'));
+    chart.draw(data, options);
+  }
 
 }
 model.showGraph();

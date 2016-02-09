@@ -14,7 +14,6 @@ function Task(){
 Task.prototype.setNextTimer = function(time){
 	if(this.trigger.type == 'timer'){
 		if(this.now_mode){
-			console.log('test');
 			if(this.next_time == time){
 				this.now_mode = false;
 				if(this.trigger.timer_type == 'periodic'){
@@ -90,12 +89,11 @@ Task.prototype.getTaskPower = function(){
 	}else if(this.type == 'sensor'){
 		return this.now_mode ? this.voltage*this.current/1000:0; 
 	}else if(this.type == 'actuator'){
-		console.log(this.outputs);
 		if(this.outputs){
-
+			return this.now_mode ? this.voltage*this.current/1000:0; 
 		}
 		if(this.now_mode)
-			console.log(this.parent_model);
+			//console.log(this.parent_model);
 
 		return this.now_mode ? this.voltage*this.current/1000:0; 
 	}	
