@@ -226,7 +226,7 @@ Model.prototype.calculate = function(){
 		
 	}
 	this.finish_time = now_time;
-	this.finish_h = Math.ceil((this.finish_time % one_day) / one_hour);
+	this.finish_h = Math.ceil(this.finish_time / one_hour);
 	this.info = info;
 	console.log(info);
 }

@@ -13,7 +13,7 @@ setInputParams = function(){
 					if(time % one_day < 6 * one_hour || time % one_day > 18 * one_hour ){
 						return 0;
 					}else{
-						return 0.3*Math.sin(Math.PI*((today_time-6*one_hour)/(12*one_hour)));
+						return 0.6*Math.sin(Math.PI*((today_time-6*one_hour)/(12*one_hour)));
 					}
 				},
 				'cycle':24*60*60//[s]
@@ -31,7 +31,7 @@ setInputParams = function(){
 		},
 		'application':{
 			'harvester':{
-				'scale':1.5,//[W]
+				'scale':2.5,//[W]
 				'efficiency':0.8
 			},
 			'storage':{

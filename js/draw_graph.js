@@ -13,6 +13,7 @@ Model.prototype.showGraph = function(){
 
     var model = this;
     var finish_h = this.finish_h;
+    console.log(this);
 
     var info = this.info;
 
