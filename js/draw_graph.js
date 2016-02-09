@@ -55,42 +55,56 @@ Model.prototype.showGraph = function(){
 
         var data_Ptask = new google.visualization.DataTable();
         data_Ptask.addColumn('timeofday', 'time');
+        data_Ptask.addColumn('number', 'Pstandby');
         data_Ptask.addColumn('number', 'Ptask1');
         data_Ptask.addColumn('number', 'Ptask2');
         data_Ptask.addColumn('number', 'Ptask3');
-        data_Ptask.addColumn('number', 'Pharvested');
+        data_Ptask.addColumn('number', 'harvested_power');
         data_Ptask.addColumn('number', 'Storage');
 
         for(var i=0;i<info.length-1;i++){
-            data_Ptask.addRows([[[info[i+1].time.h, info[i+1].time.m, info[i+1].time.s],info[i].task_power_list[0],info[i].task_power_list[1],info[i].task_power_list[2],info[i+1].Ph,info[i+1].S]]);
+            data_Ptask.addRows([[[info[i+1].time.h, info[i+1].time.m, info[i+1].time.s],info[i].Pstandby,info[i].task_power_list[0],info[i].task_power_list[1],info[i].task_power_list[2],info[i+1].Ph,info[i+1].storage]]);
+            console.log(info[i].Pstandby);
         }
 
         var options_Ptask = {
-        chart_Ptask: {
-          title: 'Box Office Earnings in First Two Weeks of Opening',
-          subtitle: 'in millions of dollars (USD)'
-        },
-        hAxis: {title: 'time',
-                        viewWindow: {min:[8,0,0],max:this.finish_time},     // 表示範囲を 450 - 700
-                        gridlines:{color:'transparent'}},
-        //vAxis: {title: 'power [W]'},
-        explorer: {
-            maxZoomIn:0.25,
-            keepInBounds: true
-        },
-        width: 900,
-        height: 300,
-        //lineWidth: 1,
-        //pointSize: 0.2,
-        //connectSteps:false,
-        isStacked: true,
-        series: {
-            0: {targetAxisIndex:0,type: "steppedArea"},
-            1: {targetAxisIndex:0,type: "steppedArea"},
-            2: {targetAxisIndex:0,type: "steppedArea"},
-            3: {targetAxisIndex:0,type: "line"},
-            4: {targetAxisIndex:0,type: "line"}
-        }
+            chart_Ptask: {
+              title: 'Box Office Earnings in First Two Weeks of Opening',
+              subtitle: 'in millions of dollars (USD)'
+            },
+            hAxis: {title: 'time',
+                            viewWindow: {min:[8,0,0]},     // 表示範囲を 450 - 700
+                            gridlines:{color:'transparent'}},
+            //vAxis: {title: 'power [W]'},
+            
+
+            vAxes: {
+                0: {
+                  title:'power [W]'
+                },
+                1:{
+                    title:'storage [J]'
+                }
+            },
+
+            explorer: {
+                maxZoomIn:0.25,
+                keepInBounds: true
+            },
+            width: 900,
+            height: 300,
+            //lineWidth: 1,
+            //pointSize: 0.2,
+            //connectSteps:false,
+            isStacked: true,
+            series: {
+                0: {targetAxisIndex:0,type: "steppedArea"},
+                1: {targetAxisIndex:0,type: "steppedArea"},
+                2: {targetAxisIndex:0,type: "steppedArea"},
+                3: {targetAxisIndex:0,type: "steppedArea"},
+                4: {targetAxisIndex:0,type: "line"},
+                5: {targetAxisIndex:1,type: "line"}
+            }
         };
 
         var chart_Ptask = new google.visualization.SteppedAreaChart(document.getElementById('chart_Ptask'));
@@ -101,12 +115,13 @@ Model.prototype.showGraph = function(){
 
         var data_Ptask = new google.visualization.DataTable();
         data_Ptask.addColumn('timeofday', 'time');
+        data_Ptask.addColumn('number', 'Pstandby');
         data_Ptask.addColumn('number', 'Ptask1');
         data_Ptask.addColumn('number', 'Ptask2');
         data_Ptask.addColumn('number', 'Ptask3');
 
         for(var i=0;i<info.length-1;i++){
-            data_Ptask.addRows([[[info[i+1].time.h, info[i+1].time.m, info[i+1].time.s],info[i].task_power_list[0],info[i].task_power_list[1],info[i].task_power_list[2]]]);
+            data_Ptask.addRows([[[info[i+1].time.h, info[i+1].time.m, info[i+1].time.s],info[i].Pstandby,info[i].task_power_list[0],info[i].task_power_list[1],info[i].task_power_list[2]]]);
         }
 
 
@@ -150,8 +165,8 @@ Model.prototype.showGraph = function(){
           title: 'Box Office Earnings in First Two Weeks of Opening',
           subtitle: 'in millions of dollars (USD)'
         },
-        hAxis: {title: '時刻',
-                        viewWindow: {min:start_time,max:this.finish_time},     // 表示範囲を 450 - 700
+        hAxis: {title: 'time',
+                        viewWindow: {min:[8,0,0]},     // 表示範囲を 450 - 700
                         gridlines:{color:'transparent'}},
         width: 900,
         height: 300,
