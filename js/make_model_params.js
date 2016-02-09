@@ -31,7 +31,7 @@ setInputParams = function(){
 		},
 		'application':{
 			'harvester':{
-				'scale':4,//[W]
+				'scale':2.5,//[W]
 				'efficiency':0.8
 			},
 			'storage':{
@@ -45,7 +45,7 @@ setInputParams = function(){
 					'efficiency':0.9
 				},
 				'mode_list':[
-					{'mode':'active','current':50/*[mA]*/,'voltage':5/*[V]*/},
+					{'mode':'active','current':80/*[mA]*/,'voltage':5/*[V]*/},
 					{'mode':'sleep','current':10,'voltage':5},
 					{'mode':'WiFi_standby','current':80,'voltage':5},
 					{'mode':'WiFi_TX','current':120,'voltage':5}],
