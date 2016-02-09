@@ -64,7 +64,6 @@ Model.prototype.showGraph = function(){
 
         for(var i=0;i<info.length-1;i++){
             data_Ptask.addRows([[[info[i+1].time.h, info[i+1].time.m, info[i+1].time.s],info[i].Pstandby,info[i].task_power_list[0],info[i].task_power_list[1],info[i].task_power_list[2],info[i+1].Ph,info[i+1].storage]]);
-            console.log(info[i].Pstandby);
         }
 
         var options_Ptask = {
