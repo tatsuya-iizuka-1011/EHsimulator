@@ -1,4 +1,4 @@
-var p_zoom_range = {min:[7,59,0],max:[8,1,0]};
+var p_zoom_range = {min:[11,59,0],max:[12,1,0]};
 
 setInputParams = function(){
 	//get input parameters and make "input_params"
@@ -21,9 +21,9 @@ setInputParams = function(){
 			'physic':[
 				{'name':'moisture',
 				'initial_value':700,
-				'dif':-100/3600,
+				'dif':-50/3600,
 				'physic_profile':function(t){
-						return 700 - 100 * t/(60*60);}}
+						return 700 - 50 * t/(60*60);}}
 			],
 			'event':{
 			}
@@ -31,7 +31,7 @@ setInputParams = function(){
 		},
 		'application':{
 			'harvester':{
-				'scale':2.5,//[W]
+				'scale':1.5,//[W]
 				'efficiency':0.8
 			},
 			'storage':{

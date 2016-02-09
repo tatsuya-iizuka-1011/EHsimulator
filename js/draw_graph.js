@@ -7,10 +7,12 @@ Model.prototype.showGraph = function(){
     google.charts.setOnLoadCallback(drawChartPtask);
     google.charts.setOnLoadCallback(drawChartPhysic);
     //google.charts.setOnLoadCallback(drawChartPh); 
-    google.charts.setOnLoadCallback(drawChartPtaskZoomed);
-    google.charts.setOnLoadCallback(drawVisualization);    
+    google.charts.setOnLoadCallback(drawChartPtaskZoomed); 
+    google.charts.setOnLoadCallback(drawChartPowers); 
+    
 
     var model = this;
+    var finish_h = this.finish_h;
 
     var info = this.info;
 
@@ -72,7 +74,7 @@ Model.prototype.showGraph = function(){
               subtitle: 'in millions of dollars (USD)'
             },
             hAxis: {title: 'time',
-                            viewWindow: {min:[8,0,0]},     // 表示範囲を 450 - 700
+                            viewWindow: {min:[8,0,0],max:[finish_h,0,0]},     // 表示範囲を 450 - 700
                             gridlines:{color:'transparent'}},
             //vAxis: {title: 'power [W]'},
             
@@ -84,11 +86,6 @@ Model.prototype.showGraph = function(){
                 1:{
                     title:'storage [J]'
                 }
-            },
-
-            explorer: {
-                maxZoomIn:0.25,
-                keepInBounds: true
             },
             width: 900,
             height: 300,
@@ -129,15 +126,17 @@ Model.prototype.showGraph = function(){
           title: 'Box Office Earnings in First Two Weeks of Opening',
           subtitle: 'in millions of dollars (USD)'
         },
-        hAxis: {title: '時刻',
+        hAxis: {title: 'time',
                         viewWindow: p_zoom_range,     // 表示範囲を 450 - 700
                         gridlines:{color:'transparent'}},
+        vAxis:{title:'power [W]'},
         width: 900,
         height: 300,
         //lineWidth: 1,
         //pointSize: 0.2,
         //connectSteps:false,
-        isStacked: true
+        isStacked: true,
+        connectSteps: false
         };
 
         var chart_Ptask = new google.visualization.SteppedAreaChart(document.getElementById('chart_Ptask_zoomed'));
@@ -165,7 +164,7 @@ Model.prototype.showGraph = function(){
           subtitle: 'in millions of dollars (USD)'
         },
         hAxis: {title: 'time',
-                        viewWindow: {min:[8,0,0]},     // 表示範囲を 450 - 700
+                        viewWindow: {min:[8,0,0],max:[finish_h,0,0]},     // 表示範囲を 450 - 700
                         gridlines:{color:'transparent'}},
         width: 900,
         height: 300,
@@ -203,14 +202,15 @@ Model.prototype.showGraph = function(){
     function drawChartPowers() {
 
         var data_Powers = new google.visualization.DataTable();
-        data_Powers.addColumn('number', 'time');
+        data_Powers.addColumn('timeofday', 'time');
+        data_Powers.addColumn('number', 'Storage');
         data_Powers.addColumn('number', 'Ps');
         data_Powers.addColumn('number', 'Pload');
         data_Powers.addColumn('number', 'Pharvested');
 
 
         for(var i=0;i<info.length;i++){
-            data_Powers.addRows([[info[i].now_time,info[i].Ps,info[i].Pl,info[i].Ph]]);
+            data_Powers.addRows([[[info[i].time.h, info[i].time.m, info[i].time.s],info[i].storage,info[i].Ps,info[i].Pl,info[i].Ph]]);
         }
 
         var options_Powers = {
@@ -218,13 +218,31 @@ Model.prototype.showGraph = function(){
               title: 'Box Office Earnings in First Two Weeks of Opening',
               subtitle: 'in millions of dollars (USD)'
             },
+            hAxis: {title: 'time',
+                        viewWindow: {min:[8,0,0],max:[finish_h,0,0]},     // 表示範囲を 450 - 700
+                        gridlines:{color:'transparent'}},
+            vAxes: {
+                0: {
+                  title:'power [W]'
+                },
+                1:{
+                    title:'storage [J]'
+                }
+            },
            // hAxis: {title: '時刻',
              //               viewWindow: {min:35900,max:36100}},
             width: 900,
             height: 500,
-            lineWidth: 1,
+            lineWidth: 0.5,
             curveType: 'function',
-            pointSize: 0.2
+            pointSize: 0.2,
+            series: {
+                0: {targetAxisIndex:1,type: "line"},
+                1: {targetAxisIndex:0,type: "line"},
+                2: {targetAxisIndex:0,type: "line"},
+                3: {targetAxisIndex:0,type: "line"},
+                4: {targetAxisIndex:0,type: "line"}
+            }
         };
 
 
@@ -232,37 +250,6 @@ Model.prototype.showGraph = function(){
 
         chart_Powers.draw(data_Powers, options_Powers);
     }
-    function drawVisualization() {
-        // Some raw data (not necessarily accurate)
-        var data = google.visualization.arrayToDataTable([
-         ['Month', 'Bolivia', 'Ecuador', 'Madagascar', 'Papua New Guinea', 'Rwanda', 'Average'],
-         ['2004/05',  165,      938,         522,             998,           450,      614.6],
-         ['2005/06',  135,      1120,        599,             1268,          288,      682],
-         ['2006/07',  157,      1167,        587,             807,           397,      623],
-         ['2007/08',  139,      1110,        615,             968,           215,      609.4],
-         ['2008/09',  136,      691,         629,             1026,          366,      569.6]
-      ]);
-
-    var options = {
-      title : 'Monthly Coffee Production by Country',
-      vAxis: {title: 'Cups'},
-      hAxis: {title: 'Month'},
-      seriesType: 'bars',
-      series: {
-            0: {targetAxisIndex:0,type: "line"},
-            1: {targetAxisIndex:0,type: "line"},
-            2: {targetAxisIndex:0,type: "line"},
-            3: {targetAxisIndex:0,type: "line"},
-            4: {targetAxisIndex:1,type: "line"},
-            5: {targetAxisIndex:1,type: "line"}
-        }
-    };
-    
-
-
-    var chart = new google.visualization.ComboChart(document.getElementById('test'));
-    chart.draw(data, options);
-  }
 
 }
 model.showGraph();

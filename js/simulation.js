@@ -186,7 +186,7 @@ Model.prototype.calculate = function(){
 	var i=0;
 	var info = [];
 	drive_time_task_list = [0,0,0];
-	while(this.S > 0){
+	while(this.S > 0 && i < 150000){
 		next_time = this.setNextTime(now_time);
 		this.Ph = this.getHarvestedPower(now_time);
 		this.Pstandby = this.getStandbyPower();
@@ -226,6 +226,7 @@ Model.prototype.calculate = function(){
 		
 	}
 	this.finish_time = now_time;
+	this.finish_h = Math.ceil((this.finish_time % one_day) / one_hour);
 	this.info = info;
 	console.log(info);
 }

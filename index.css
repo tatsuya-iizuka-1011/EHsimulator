@@ -11,7 +11,7 @@
     width:900px;
     height:300px;
     position: absolute;
-    top: 0px;
+    top: 610px;
     left:1000px;
 }
 #chart_physic{
@@ -27,7 +27,7 @@
     width:900px;
     height:300px;
     position: absolute;
-    top: 610px;
+    top: 910px;
     left:100px;
 }
 #chart_storage{
@@ -35,7 +35,7 @@
     width:900px;
     height:300px;
     position: absolute;
-    top: 910px;
+    top: 1210px;
     left:100px;
 }
 #chart_harvested{
