@@ -31,7 +31,7 @@ setInputParams = function(){
 		},
 		'application':{
 			'harvester':{
-				'scale':2.5,//[W]
+				'scale':4,//[W]
 				'efficiency':0.8
 			},
 			'storage':{
