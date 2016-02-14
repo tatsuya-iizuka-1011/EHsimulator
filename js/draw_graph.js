@@ -3,12 +3,12 @@ Model.prototype.showGraph = function(){
     //google.charts.load('current', {'packages':['corechart']});
 
 
-    google.charts.setOnLoadCallback(drawChartStorage);
+    //google.charts.setOnLoadCallback(drawChartStorage);
     google.charts.setOnLoadCallback(drawChartPtask);
     google.charts.setOnLoadCallback(drawChartPhysic);
     //google.charts.setOnLoadCallback(drawChartPh); 
     google.charts.setOnLoadCallback(drawChartPtaskZoomed); 
-    google.charts.setOnLoadCallback(drawChartPowers); 
+    //google.charts.setOnLoadCallback(drawChartPowers); 
     
 
     var model = this;

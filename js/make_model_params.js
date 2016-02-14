@@ -1,5 +1,5 @@
-var p_zoom_range = {min:[11,59,0],max:[12,1,0]};
-
+var harvester_scale = 2.5;//[W]
+var solar_radiation = 1.0;//[MJ]
 setInputParams = function(){
 	//get input parameters and make "input_params"
 	//getElementById , parseInt() is useful
@@ -13,7 +13,7 @@ setInputParams = function(){
 					if(time % one_day < 6 * one_hour || time % one_day > 18 * one_hour ){
 						return 0;
 					}else{
-						return 0.6*Math.sin(Math.PI*((today_time-6*one_hour)/(12*one_hour)));
+						return solar_radiation*Math.sin(Math.PI*((today_time-6*one_hour)/(12*one_hour)));
 					}
 				},
 				'cycle':24*60*60//[s]
@@ -21,7 +21,7 @@ setInputParams = function(){
 			'physic':[
 				{'name':'moisture',
 				'initial_value':700,
-				'dif':-50/3600,
+				'dif':-(20+50*solar_radiation)/3600,
 				'physic_profile':function(t){
 						return 700 - 50 * t/(60*60);}}
 			],
@@ -31,7 +31,7 @@ setInputParams = function(){
 		},
 		'application':{
 			'harvester':{
-				'scale':4,//[W]
+				'scale':harvester_scale,//[W]
 				'efficiency':0.8
 			},
 			'storage':{
@@ -68,3 +68,4 @@ setInputParams = function(){
 	};
 	return input_params;
 }
+var p_zoom_range = {min:[11,59,0],max:[12,1,0]};
