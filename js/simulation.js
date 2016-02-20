@@ -133,7 +133,12 @@ Model.prototype.getPhysicalQuantity = function(args){
 	for(var i=0;i<this.physic_list.length;i++){
 		if(args.physical_quantity == this.physic_list[i].name){
 			var physic = this.physic_list[i];
-			physic.now_value = physic.now_value + physic.dif*(args.time-physic.prev_time);
+			if(now_time < 18 * one_hour){
+				this.sys_params.environment.energy.energy_profile(now_time);
+			}
+			var dt = args.time-physic.prev_time;
+			physic.now_value = physic.now_value + physic.dif*dt;
+			physic.now_value -= 10*this.sys_params.environment.energy.energy_profile(now_time)/180 * dt;
 			physic.prev_time = args.time;
 			return  physic.now_value
 		}

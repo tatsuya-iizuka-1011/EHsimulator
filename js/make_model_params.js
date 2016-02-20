@@ -21,7 +21,7 @@ setInputParams = function(){
 			'physic':[
 				{'name':'moisture',
 				'initial_value':700,
-				'dif':-(20+50*solar_radiation)/3600,
+				'dif':-20/3600,
 				'physic_profile':function(t){
 						return 700 - 50 * t/(60*60);}}
 			],
