@@ -1,7 +1,7 @@
-var harvester_scale = 1.2;//[W]
+var harvester_scale = 1.0;//[W]
 var solar_radiation = 0.5;//[W]
 //var input_solar = [0,0,0,0,0,0,0.03,0.45,0.94,1.60,1.75,1.78,1.37,1.38,1.64,1.26,0.84,0.53,0.16,0,0,0,0,0]; //24:00~23:00
-var input_solar = [0,0,0,0,0,0,0.03,0.45,0.94,1.60,2.4,3.6,3.6,4,1.64,1.26,0.84,0.53,0.16,0,0,0,0,0];
+var input_solar = [0,0,0,0,0,0,0.03,0.45,0.94,1.60,2.4,1.0,0.8,1.1,1.2,0.4,0.2,0,0,0,0,0,0,0];
 var i = 0;
 for(i=0;i<input_solar.length;i++){
 	input_solar[i] = input_solar[i]/3.6;
@@ -31,10 +31,10 @@ setInputParams = function(){
 			},
 			'physic':[
 				{'name':'moisture',
-				'initial_value':700,
-				'dif':-20/3600,
+				'initial_value':620,
+				'dif':-16/3600,
 				'physic_profile':function(t){
-						return 700 - 50 * t/(60*60);}}
+						return 620 - 16 * t/(60*60);}}
 			],
 			'event':{
 			}
@@ -59,12 +59,12 @@ setInputParams = function(){
 					{'mode':'active','current':50/*[mA]*/,'voltage':7/*[V]*/},
 					{'mode':'sleep','current':10,'voltage':5},
 					{'mode':'WiFi_standby','current':80,'voltage':7},
-					{'mode':'WiFi_TX','current':120,'voltage':7}],
+					{'mode':'WiFi_TX','current':/*12*/0,'voltage':7}],
 				'task_list':[
 					{'name':'moisture_sensor','type':'sensor','current':35/*[mA]*/,'voltage':5,'execution_time':2000/*[ms]*/,
-						'trigger':{'type':'timer','timer_type':'periodic','cycle':40/*[s]*/,'start':'application_start'}},
+						'trigger':{'type':'timer','timer_type':'periodic','cycle':10/*[s]*/,'start':'application_start'}},
 					{'name':'driving_motor','type':'actuator','current':220/*[mA]*/,'voltage':5,'execution_time':30000/*[ms]*/,'outputs':{'physical_quantity':'moisture','value':200},
-						'trigger':{'type':'interface','info':{'driven_task':'moisture_sensor','type':'threshold_detection','physical_quantity':'moisture','value':500,'condition':'low'}}},
+						'trigger':{'type':'interface','info':{'driven_task':'moisture_sensor','type':'threshold_detection','physical_quantity':'moisture','value':588,'condition':'low'}}},
 					{'name':'tweet','type':'data_transmission','mode':'WiFi_TX','current':0,'voltage':7,'execution_time':12000,
 						'trigger':{'type':'follow_other_task','info':{'driven_task':'driving_motor'}}}]
 			},

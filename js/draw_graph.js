@@ -75,7 +75,7 @@ Model.prototype.showGraph = function(){
               subtitle: 'in millions of dollars (USD)'
             },
             hAxis: {title: 'time',
-                            viewWindow: {min:[8,0,0],max:[finish_h,0,0]},     // 表示範囲を 450 - 700
+                            viewWindow: {min:[11,0,0],max:[finish_h,0,0]},     // 表示範囲を 450 - 700
                             gridlines:{color:'transparent'}},
             //vAxis: {title: 'power [W]'},
 
@@ -94,6 +94,7 @@ Model.prototype.showGraph = function(){
             //pointSize: 0.2,
             //connectSteps:false,
             isStacked: true,
+            connectSteps: false,
             series: {
                 0: {targetAxisIndex:0,type: "steppedArea"},
                 1: {targetAxisIndex:0,type: "steppedArea"},

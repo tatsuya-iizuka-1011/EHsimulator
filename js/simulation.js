@@ -230,7 +230,7 @@ Model.prototype.calculate = function(){
 		now_time = next_time;
 		if(i>15000)
 			break;
-		//console.log(now_this.S);
+		console.log(now_time,this.S,physic_list[0]);
 
 	}
 	this.finish_time = now_time;
