@@ -6,10 +6,10 @@ Model.prototype.showGraph = function(){
     //google.charts.setOnLoadCallback(drawChartStorage);
     google.charts.setOnLoadCallback(drawChartPtask);
     google.charts.setOnLoadCallback(drawChartPhysic);
-    //google.charts.setOnLoadCallback(drawChartPh); 
-    google.charts.setOnLoadCallback(drawChartPtaskZoomed); 
-    //google.charts.setOnLoadCallback(drawChartPowers); 
-    
+    //google.charts.setOnLoadCallback(drawChartPh);
+    google.charts.setOnLoadCallback(drawChartPtaskZoomed);
+    //google.charts.setOnLoadCallback(drawChartPowers);
+
 
     var model = this;
     var finish_h = this.finish_h;
@@ -78,7 +78,7 @@ Model.prototype.showGraph = function(){
                             viewWindow: {min:[8,0,0],max:[finish_h,0,0]},     // 表示範囲を 450 - 700
                             gridlines:{color:'transparent'}},
             //vAxis: {title: 'power [W]'},
-            
+
 
             vAxes: {
                 0: {
@@ -149,7 +149,7 @@ Model.prototype.showGraph = function(){
         var data_physic = new google.visualization.DataTable();
         data_physic.addColumn('timeofday', 'time');
         for(var i=0;i<info[i].physic_value_list.length;i++){
-           data_physic.addColumn('number', model.physic_list[i].name); 
+           data_physic.addColumn('number', model.physic_list[i].name);
         }
         for(var i=0;i<info.length;i++){
             var array = [[info[i].time.h, info[i].time.m, info[i].time.s]];

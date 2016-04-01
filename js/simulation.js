@@ -36,7 +36,7 @@ Model.prototype.setTaskList = function(){
 		task_list.push(task);
 	}
 	this.task_list = task_list;
-	
+
 	//set Follow Other Task
 	for(var i=0;i<task_list.length;i++){
 		if(task_list[i].trigger.type == 'follow_other_task'){
@@ -138,7 +138,7 @@ Model.prototype.getPhysicalQuantity = function(args){
 			}
 			var dt = args.time-physic.prev_time;
 			physic.now_value = physic.now_value + physic.dif*dt;
-			physic.now_value -= 10*this.sys_params.environment.energy.energy_profile(now_time)/180 * dt;
+			//physic.now_value -= 10*this.sys_params.environment.energy.energy_profile(now_time)/180 * dt;
 			physic.prev_time = args.time;
 			return  physic.now_value
 		}
@@ -191,7 +191,7 @@ Model.prototype.calculate = function(){
 	var i=0;
 	var info = [];
 	drive_time_task_list = [0,0,0];
-	while(this.S > 0 && i < 15000){
+	while(this.S > 0 && i < 1000){
 		next_time = this.setNextTime(now_time);
 		this.Ph = this.getHarvestedPower(now_time);
 		this.Pstandby = this.getStandbyPower();
@@ -199,11 +199,11 @@ Model.prototype.calculate = function(){
 		this.Pmcu = this.Ptasks + this.Pstandby;
 		this.Pl = this.Pmcu / load_efficiency;
 		this.Ps = this.Ph - this.Pl;
-		
 
-		
+
+
 		this.dt = next_time - now_time;
-		
+
 
 		this.hour =  Math.floor(now_time/3600);
 		this.minute =  Math.floor((now_time-this.hour*3600)/60);
@@ -230,12 +230,13 @@ Model.prototype.calculate = function(){
 		now_time = next_time;
 		if(i>15000)
 			break;
-		
+		//console.log(now_this.S);
+
 	}
 	this.finish_time = now_time;
 	this.finish_h = Math.ceil(this.finish_time / one_hour);
 	this.info = info;
-	console.log(info);
+	//console.log(info);
 }
 var model = new Model;
 model.setup();
