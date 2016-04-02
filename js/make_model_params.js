@@ -1,7 +1,7 @@
-var harvester_scale = 1.0;//[W]
-var solar_radiation = 0.5;//[W]
+var harvester_scale = 1.2;//[W]
+var solar_radiation = 0.6;//[W]
 //var input_solar = [0,0,0,0,0,0,0.03,0.45,0.94,1.60,1.75,1.78,1.37,1.38,1.64,1.26,0.84,0.53,0.16,0,0,0,0,0]; //24:00~23:00
-var input_solar = [0,0,0,0,0,0,0.03,0.45,0.94,1.60,2.4,1.0,0.8,1.1,1.2,0.4,0.2,0,0,0,0,0,0,0];
+var input_solar = [0,0,0,0,0,0,0.03,0.44,0.95,1.81,2.07,2.04,2.38,1.99,1.14,0.84,0.25,0.05,0,0,0,0,0,0];
 var i = 0;
 for(i=0;i<input_solar.length;i++){
 	input_solar[i] = input_solar[i]/3.6;
@@ -15,26 +15,29 @@ setInputParams = function(){
 		'environment':{
 			'energy':{
 				'energy_profile':function(time){
-					var sun_hour =  Math.round(time/3600);
-					return input_solar[sun_hour]+(input_solar[sun_hour+1]-input_solar[sun_hour])*(time/3600-(sun_hour-0.5));
 
 
 					/*
+					var sun_hour =  Math.round(time/3600);
+					return input_solar[sun_hour]+(input_solar[sun_hour+1]-input_solar[sun_hour])*(time/3600-(sun_hour-0.5));*/
+
+
+
 					var today_time = time % one_day;
 					if(time % one_day < 6 * one_hour || time % one_day > 18 * one_hour ){
 						return 0;
 					}else{
 						return solar_radiation*Math.sin(Math.PI*((today_time-6*one_hour)/(12*one_hour)));
-					}*/
+					}
 				},
 				'cycle':24*60*60//[s]
 			},
 			'physic':[
 				{'name':'moisture',
-				'initial_value':620,
-				'dif':-16/3600,
+				'initial_value':700,
+				'dif':-50/3600,
 				'physic_profile':function(t){
-						return 620 - 16 * t/(60*60);}}
+						return 620 - 100 * t/(60*60);}}
 			],
 			'event':{
 			}
@@ -46,8 +49,8 @@ setInputParams = function(){
 				'efficiency':0.8
 			},
 			'storage':{
-				'capacity':5760,//[J]
-				'initial_storage':0.6,
+				'capacity':28800,//[J]
+				'initial_storage':0.2,
 				'charge_efficiency':0.99,
 				'leak_current':1.0 * Math.pow(10,-7)//[W]
 			},
@@ -57,9 +60,9 @@ setInputParams = function(){
 				},
 				'mode_list':[
 					{'mode':'active','current':50/*[mA]*/,'voltage':7/*[V]*/},
-					{'mode':'sleep','current':10,'voltage':5},
+					{'mode':'sleep','current':10,'voltage':7},
 					{'mode':'WiFi_standby','current':80,'voltage':7},
-					{'mode':'WiFi_TX','current':/*12*/0,'voltage':7}],
+					{'mode':'WiFi_TX','current':120,'voltage':7}],
 				'task_list':[
 					{'name':'moisture_sensor','type':'sensor','current':35/*[mA]*/,'voltage':5,'execution_time':2000/*[ms]*/,
 						'trigger':{'type':'timer','timer_type':'periodic','cycle':10/*[s]*/,'start':'application_start'}},
@@ -74,7 +77,7 @@ setInputParams = function(){
 				'condition':{'type':'battery_threshold_low','value':15/*%*/}
 			}
 		},'info':{
-			'start_time':11
+			'start_time':8
 		}
 	};
 	return input_params;

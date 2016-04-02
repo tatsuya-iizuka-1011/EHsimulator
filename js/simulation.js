@@ -191,7 +191,7 @@ Model.prototype.calculate = function(){
 	var i=0;
 	var info = [];
 	drive_time_task_list = [0,0,0];
-	while(this.S > 0 && i < 1000){
+	while(this.S > 0){
 		next_time = this.setNextTime(now_time);
 		this.Ph = this.getHarvestedPower(now_time);
 		this.Pstandby = this.getStandbyPower();
@@ -230,7 +230,6 @@ Model.prototype.calculate = function(){
 		now_time = next_time;
 		if(i>15000)
 			break;
-		console.log(now_time,this.S,physic_list[0]);
 
 	}
 	this.finish_time = now_time;

@@ -35,7 +35,7 @@ Model.prototype.showGraph = function(){
               subtitle: 'in millions of dollars (USD)'
             },
             hAxis: {title: '時刻',
-                            viewWindow: {min:start_time,max:this.finish_time}},
+                            viewWindow: {min:[11,0,0],max:this.finish_time}},
             width: 900,
             height: 500,
             lineWidth: 1,
@@ -75,8 +75,12 @@ Model.prototype.showGraph = function(){
               subtitle: 'in millions of dollars (USD)'
             },
             hAxis: {title: 'time',
-                            viewWindow: {min:[11,0,0],max:[finish_h,0,0]},     // 表示範囲を 450 - 700
-                            gridlines:{color:'transparent'}},
+            titleTextStyle: {
+                color: '#FF0000',
+                fontsize:15
+            },
+                            viewWindow: {min:[8,0,0],max:[finish_h,0,0]},     // 表示範囲を 450 - 700
+                        /*gridlines:{color:'transparent'}*/},
             //vAxis: {title: 'power [W]'},
 
 
@@ -88,8 +92,10 @@ Model.prototype.showGraph = function(){
                     title:'storage [J]'
                 }
             },
-            width: 900,
-            height: 300,
+            width: 3600,
+            height: 1200,
+            areaOpacity:1.0,
+            fontsize:10,
             //lineWidth: 1,
             //pointSize: 0.2,
             //connectSteps:false,
@@ -132,8 +138,8 @@ Model.prototype.showGraph = function(){
                         viewWindow: p_zoom_range,     // 表示範囲を 450 - 700
                         gridlines:{color:'transparent'}},
         vAxis:{title:'power [W]'},
-        width: 900,
-        height: 300,
+        width: 1800,
+        height: 600,
         //lineWidth: 1,
         //pointSize: 0.2,
         //connectSteps:false,
