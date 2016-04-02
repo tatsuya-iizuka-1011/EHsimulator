@@ -66,7 +66,7 @@ Model.prototype.showGraph = function(){
         data_Ptask.addColumn('number', 'Storage');
 
         for(var i=0;i<info.length-1;i++){
-            data_Ptask.addRows([[[info[i+1].time.h, info[i+1].time.m, info[i+1].time.s],info[i].Pstandby,info[i].task_power_list[0],info[i].task_power_list[1],info[i].task_power_list[2],info[i+1].Ph,info[i+1].storage]]);
+            data_Ptask.addRows([[[info[i+1].time.h, info[i+1].time.m, info[i+1].time.s],info[i].Pstandby,info[i].task_power_list[0],info[i].task_power_list[1],info[i].task_power_list[2],info[i+1].Ph,info[i+1].storage/28800]]);
         }
 
         var options_Ptask = {
@@ -76,8 +76,7 @@ Model.prototype.showGraph = function(){
             },
             hAxis: {title: 'time',
             titleTextStyle: {
-                color: '#FF0000',
-                fontsize:15
+                fontSize:40
             },
                             viewWindow: {min:[8,0,0],max:[finish_h,0,0]},     // 表示範囲を 450 - 700
                         /*gridlines:{color:'transparent'}*/},
@@ -86,12 +85,25 @@ Model.prototype.showGraph = function(){
 
             vAxes: {
                 0: {
-                  title:'power [W]'
+                  title:'power [W]',
+                  titleTextStyle: {
+                      fontSize:40
+                  }
                 },
                 1:{
-                    title:'storage [J]'
+                    title:'residual energy [%]',
+                    titleTextStyle: {
+                        fontSize:40
+                    }
                 }
             },
+            legend:{
+                position:'top',
+                textStyle:{
+                    fontSize:40
+                }
+            },
+            fontSize:40,
             width: 3600,
             height: 1200,
             areaOpacity:1.0,
