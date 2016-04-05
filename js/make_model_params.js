@@ -1,4 +1,4 @@
-var harvester_scale = 1.2;//[W]
+var harvester_scale = 2.5;//[W]
 var solar_radiation = 0.6;//[W]
 //var input_solar = [0,0,0,0,0,0,0.03,0.45,0.94,1.60,1.75,1.78,1.37,1.38,1.64,1.26,0.84,0.53,0.16,0,0,0,0,0]; //24:00~23:00
 var input_solar = [0,0,0,0,0,0,0.03,0.44,0.95,1.81,2.07,2.04,2.38,1.99,1.14,0.84,0.25,0.05,0,0,0,0,0,0];
@@ -67,7 +67,7 @@ setInputParams = function(){
 					{'name':'moisture_sensor','type':'sensor','current':35/*[mA]*/,'voltage':5,'execution_time':2000/*[ms]*/,
 						'trigger':{'type':'timer','timer_type':'periodic','cycle':10/*[s]*/,'start':'application_start'}},
 					{'name':'driving_motor','type':'actuator','current':220/*[mA]*/,'voltage':5,'execution_time':30000/*[ms]*/,'outputs':{'physical_quantity':'moisture','value':200},
-						'trigger':{'type':'interface','info':{'driven_task':'moisture_sensor','type':'threshold_detection','physical_quantity':'moisture','value':588,'condition':'low'}}},
+						'trigger':{'type':'interface','info':{'driven_task':'moisture_sensor','type':'threshold_detection','physical_quantity':'moisture','value':500,'condition':'low'}}},
 					{'name':'tweet','type':'data_transmission','mode':'WiFi_TX','current':0,'voltage':7,'execution_time':12000,
 						'trigger':{'type':'follow_other_task','info':{'driven_task':'driving_motor'}}}]
 			},

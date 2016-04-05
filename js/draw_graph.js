@@ -66,7 +66,7 @@ Model.prototype.showGraph = function(){
         data_Ptask.addColumn('number', 'Storage');
 
         for(var i=0;i<info.length-1;i++){
-            data_Ptask.addRows([[[info[i+1].time.h, info[i+1].time.m, info[i+1].time.s],info[i].Pstandby,info[i].task_power_list[0],info[i].task_power_list[1],info[i].task_power_list[2],info[i+1].Ph,info[i+1].storage/28800]]);
+            data_Ptask.addRows([[[info[i+1].time.h, info[i+1].time.m, info[i+1].time.s],info[i].Pstandby,info[i].task_power_list[0],info[i].task_power_list[1],info[i].task_power_list[2],info[i+1].Ph,info[i+1].storage/288]]);
         }
 
         var options_Ptask = {
@@ -100,14 +100,13 @@ Model.prototype.showGraph = function(){
             legend:{
                 position:'top',
                 textStyle:{
-                    fontSize:40
+                    fontSize:25
                 }
             },
-            fontSize:40,
-            width: 3600,
-            height: 1200,
+            fontSize:25,
+            width: 2400,
+            height: 600,
             areaOpacity:1.0,
-            fontsize:10,
             //lineWidth: 1,
             //pointSize: 0.2,
             //connectSteps:false,
@@ -150,7 +149,7 @@ Model.prototype.showGraph = function(){
                         viewWindow: p_zoom_range,     // 表示範囲を 450 - 700
                         gridlines:{color:'transparent'}},
         vAxis:{title:'power [W]'},
-        width: 1800,
+        width: 2400,
         height: 600,
         //lineWidth: 1,
         //pointSize: 0.2,
@@ -186,10 +185,12 @@ Model.prototype.showGraph = function(){
         hAxis: {title: 'time',
                         viewWindow: {min:[8,0,0],max:[finish_h,0,0]},     // 表示範囲を 450 - 700
                         gridlines:{color:'transparent'}},
-        width: 900,
-        height: 300,
+        width: 2400,
+        height: 600,
         lineWidth: 1,
-        pointSize: 0.2
+        pointSize: 0.2,
+        fontSize:30,
+        colors:['blue','green','yellow','purple','yellow','red']
         };
 
         var chart_physic = new google.visualization.ScatterChart(document.getElementById('chart_physic'));
